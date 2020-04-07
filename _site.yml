@@ -1,0 +1,25 @@
+name: Law & Tech
+navbar:
+  title: Law & Tech
+  left:
+  - text: Research
+    href: Research.html
+  - text: Case Law
+    href: caselaw.html
+  - text: (Legal) Data
+    href: legaldata.html
+  - text: Open Data
+    href: data.html
+  - text: Tools & Projects
+    href: Tools.html
+  right:
+    - icon: ion-social-github
+      href: https://github.com/d-vf
+    - icon: ion-social-twitter
+      href: https://twitter.com/d_vf
+output_dir: '.'
+output:
+  html_document:
+    lib_dir: site_libs
+    self_contained: no
+
