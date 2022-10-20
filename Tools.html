@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tools.knit</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.26/datatables.js"></script>
+<link href="site_libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Law & Tech</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Research.html">Research</a>
+</li>
+<li>
+  <a href="caselaw.html">Case Law</a>
+</li>
+<li>
+  <a href="legaldata.html">(Legal) Data</a>
+</li>
+<li>
+  <a href="data.html">Open Data</a>
+</li>
+<li>
+  <a href="Tools.html">Tools &amp; Projects</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/d-vf">
+    <span class="ion ion-social-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://twitter.com/d_vf">
+    <span class="ion ion-social-twitter"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="tools" class="section level2">
+<h2>Tools</h2>
+<p><br />
+</p>
+<div id="law" class="section level3">
+<h3>Law</h3>
+<div id="htmlwidget-2cbec0d6387a4e7eef24" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2cbec0d6387a4e7eef24">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63"],["Bitcoin Energy Consumption Index","Endor","Enigma","Diário da Républica Electrónico (DRE)","Blokur","Factom","Open Law","The Smart Legal  Contracts Stack","Iota Project","eos","AI Fairness 360 Open Source Toolkit","DeepWTO","Global Internet Policy Observatory (GIPO)","DAML","PyTorch-BigGraph (PBG)","Contract Pen","Bosque","Obevo","Reladomo","ROSS","Aequitas","Docassemble","COMPUTATIONAL FACTS","CLAUDETTE","Cyberjustice Software","BlockSci","ACTUS project","The Regulated TokenTM (R-TokenTM) Standard","AI Explainability 360 Open Source Toolkit","Corpus Legis","OpenWordnet-PT: an open Brazilian Wordnet","SIBS API Market","Banco Best API","C2B - Prestação de Serviços a Clientes - Registo Normalizado (XML) SEPA","Contract Tutorial","Guide to the SEPA Schemes Adherence Process","ISO/TC 307 - Blockchain and distributed ledger technologies","PSD2 APIs User's Manual - SIBS API Market","Registo Normalizado (XML) SEPA","SEPA CREDIT TRANSFER SCHEME RULEBOOK","SEPA INSTANT CREDIT TRANSFER (SCT INST) SCHEME RULEBOOK","bitcoin clusterer","ExternalCodeSets_2Q2018_August2018_v2.xls","LedgerX  - Ethereum Futures","Open Banking","Documentation Cookie Consent Kit","Monerium","Monax","Portuguese Word Embeddings: Evaluating on Word Analogies and Natural Language Tasks","LexNLP by LexPredict","Blackstone","Community lawyer","Open case Book","NLPL word embeddings repository","Marlowe Playground","Predicting the Behavior of the Supreme Court of the United States: A General Approach","Cambridge Bitcoin Electricity Consumption Index","Machine Learning Crash Course","Setting Fairness Goals with the TensorFlow Constrained Optimization Library","Catala","CrowdJustice","eIDAS Dashboard","Legal Text Analytics"],["Digiconomist","Endor","Enigma","INESC ID","Blokur","Factom","Open Law","Accord Project",null,null,"IBM","WTO","Global Internet Policy Observatory","Digital Asset Holdings, LLC","Facebook","Contract Pen","Microsoft","Goldman Sachs","Goldman Sachs","IBM","U Chicago","docassemble","Wolfram","Uni Bologna","Cyberjustice Laboratory","BlockSci","ACTUS Financial Research Foundation",null,"IBM","Stanford","Escola de Matemática Aplicada, Fundação Getulio Vargas","SIBS","Banco Best","Banco de Portugal","ethereum","European Payments Council","ISO","SIBS","Banco de Portugal","European Payments Council","European Payments Council","repo, clusterer","ISO","LedgerX","Open Banking UK","EU","Monerium","Monax",null,null,"ICLR&D",null,"Harvard","Language Technology Group at the University of Oslo","Marlowe",null,"Cambridge Centre for Alternative Finance","Google","Google",null,null,null,null],["<a href=\"https://digiconomist.net/bitcoin-energy-consumption\"> Bitcoin Energy Consumption Index<\/a>","<a href=\"https://www.endor.com/\"> Endor<\/a>","<a href=\"https://enigma.co/\"> Enigma<\/a>","<a href=\"http://www.inesc-id.pt/group/II11/\"> Diário da Républica Electrónico (DRE)<\/a>","<a href=\"https://www.blokur.com/\"> Blokur<\/a>","<a href=\"https://www.factom.com/products/harmony\"> Factom <\/a>","<a href=\"https://openlaw.io/\"> Open Law<\/a>","<a href=\"https://www.accordproject.org/\"> The Smart Legal  Contracts Stack<\/a>","<a href=\"https://www.iota.org/\"> Iota Project<\/a>","<a href=\"https://eos.io/\"> eos<\/a>","<a href=\"https://aif360.mybluemix.net/\"> AI Fairness 360 Open Source Toolkit<\/a>","<a href=\"https://github.com/syyunn/DeepWTO\"> DeepWTO<\/a>","<a href=\"http://observatory.giponet.org/\"> Global Internet Policy Observatory (GIPO)<\/a>","<a href=\"https://daml.com/\"> DAML<\/a>","<a href=\"https://github.com/facebookresearch/PyTorch-BigGraph\"> PyTorch-BigGraph (PBG)<\/a>","<a href=\"https://contractpen.com/\"> Contract Pen<\/a>","<a href=\"https://github.com/Microsoft/BosqueLanguage\"> Bosque<\/a>","<a href=\"https://github.com/goldmansachs/obevo\"> Obevo<\/a>","<a href=\"https://goldmansachs.github.io/reladomo/\"> Reladomo<\/a>","<a href=\"https://rossintelligence.com/pricing.html\"> ROSS <\/a>","<a href=\"https://dsapp.uchicago.edu/projects/aequitas/\"> Aequitas<\/a>","<a href=\"https://docassemble.org/\"> Docassemble<\/a>","<a href=\"https://www.wolframblockchainlabs.com/computational-facts/\"> COMPUTATIONAL FACTS<\/a>","<a href=\"http://claudette.eui.eu/index.html\"> CLAUDETTE<\/a>","<a href=\"https://www.cyberjustice.ca/en/parle-3/\"> Cyberjustice Software<\/a>","<a href=\"https://github.com/citp/BlockSci\"> BlockSci<\/a>","<a href=\"https://www.actusfrf.org/about\"> ACTUS project<\/a>","<a href=\"https://drive.google.com/file/d/1951xd1bXLgNAQMeQmMUVPevz4lLdAdUf/view?usp=sharing\"> The Regulated TokenTM (R-TokenTM) Standard<\/a>","<a href=\"http://aix360.mybluemix.net/\"> AI Explainability 360 Open Source Toolkit<\/a>","<a href=\"http://corpuslegis.org/\"> Corpus Legis<\/a>","<a href=\"https://github.com/own-pt/openWordnet-PT\"> OpenWordnet-PT: an open Brazilian Wordnet<\/a>","<a href=\"https://developer.sibsapimarket.com/sandbox/sites/sandbox.developer.sibsapimarket.com/files/sibs_api_market_-_psd2_apis_users_manual_v01.04_0.pdf\"> SIBS API Market<\/a>","<a href=\"https://developer.open.bancobest.pt/\"> Banco Best API<\/a>","<a href=\"https://www.bportugal.pt/sites/default/files/sepa-manual-c2b-xml-112016-pt.pdf\"> C2B - Prestação de Serviços a Clientes - Registo Normalizado (XML) SEPA<\/a>","<a href=\"https://github.com/ethereum/go-ethereum/wiki/Contract-Tutorial\"> Contract Tutorial<\/a>","<a href=\"https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2018-04/EPC012-17%20Guide%20to%20the%20SEPA%20Schemes%20Adherence%20Process%20v2.0.pdf\"> Guide to the SEPA Schemes Adherence Process<\/a>","<a href=\"https://www.iso.org/committee/6266604.html\"> ISO/TC 307 - Blockchain and distributed ledger technologies<\/a>","<a href=\"https://developer.sibsapimarket.com/sandbox/sites/sandbox.developer.sibsapimarket.com/files/sibs_api_market_-_psd2_apis_users_manual_v01.04_0.pdf\"> PSD2 APIs User's Manual - SIBS API Market<\/a>","<a href=\"https://www.bportugal.pt/sites/default/files/sepa-manual-c2b-xml-112016-pt.pdf\"> Registo Normalizado (XML) SEPA<\/a>","<a href=\"https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2017-10/EPC125-05%202017%20SCT%20Rulebook%20version%201.1.pdf\"> SEPA CREDIT TRANSFER SCHEME RULEBOOK<\/a>","<a href=\"https://www.europeanpaymentscouncil.eu/sites/default/files/KB/files/EPC004-16%202017%20SCT%20Instant%20Rulebook%20v1.0.pdf\"> SEPA INSTANT CREDIT TRANSFER (SCT INST) SCHEME RULEBOOK<\/a>","<a href=\"https://github.com/tillneu/bitcoin-clusterer\"> bitcoin clusterer<\/a>","<a href=\"https://www.iso20022.org/sites/default/files/documents/External_code_lists/ExternalCodeSets_2Q2018_August2018_v2.xls\"> ExternalCodeSets_2Q2018_August2018_v2.xls<\/a>","<a href=\"https://ledgerx.com/projects/\"> LedgerX  - Ethereum Futures<\/a>","<a href=\"https://www.openbanking.org.uk/\"> Open Banking<\/a>","<a href=\"http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm\"> Documentation Cookie Consent Kit<\/a>","<a href=\"https://monerium.com/\"> Monerium<\/a>","<a href=\"https://monax.io/\"> Monax<\/a>","<a href=\"https://github.com/nathanshartmann/portuguese_word_embeddings\"> Portuguese Word Embeddings: Evaluating on Word Analogies and Natural Language Tasks<\/a>","<a href=\"https://github.com/LexPredict/lexpredict-lexnlp\"> LexNLP by LexPredict<\/a>","<a href=\"https://research.iclr.co.uk/blackstone\"> Blackstone<\/a>","<a href=\"https://community.lawyer/featured-apps\"> Community lawyer<\/a>","<a href=\"https://opencasebook.org/casebooks/75344-contracts-casebook-digital-version\"> Open case Book<\/a>","<a href=\"http://vectors.nlpl.eu/repository/\"> NLPL word embeddings repository<\/a>","<a href=\"alpha.marlowe.iohkdev.io\"> Marlowe Playground<\/a>","<a href=\"https://github.com/mjbommar/scotus-predict\"> Predicting the Behavior of the Supreme Court of the United States: A General Approach<\/a>","<a href=\"https://www.cbeci.org/\"> Cambridge Bitcoin Electricity Consumption Index<\/a>","<a href=\"https://developers.google.com/machine-learning/crash-course\"> Machine Learning Crash Course<\/a>","<a href=\"https://ai.googleblog.com/2020/02/setting-fairness-goals-with-tensorflow.html\"> Setting Fairness Goals with the TensorFlow Constrained Optimization Library<\/a>","<a href=\"https://catala-lang.org/\"> Catala<\/a>","<a href=\"https://www.crowdjustice.com\"> CrowdJustice<\/a>","<a href=\"https://esignature.ec.europa.eu/efda/tl-browser/#/screen/tl/PT\"> eIDAS Dashboard<\/a>","<a href=\"https://github.com/Liquid-Legal-Institute/Legal-Text-Analytics\"> Legal Text Analytics<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Name<\/th>\n      <th>Entity<\/th>\n      <th>Link<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="projects" class="section level2">
+<h2>Projects</h2>
+<div id="htmlwidget-692aca9dd7e8f08decb9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-692aca9dd7e8f08decb9">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35"],["Ethics and Governance of Artificial Intelligence Initiative (Berkman Klein Center and the MIT Media Lab)","Oxford Internet Institute","The Alan Turing Institute","Data ethics/ How can data science and artificial intelligence be used for the good of society?","Moral Machines (Media Lab)","Feldstein Program Law History and Regulation","Law & Ethics in a Data Driven Digital Society","Machine Learning for Encrypted Blockchains — Sandy Pentland, MIT","Better living through trusted data - Alex ‘Sandy’ Pentland, MIT (Published on 16 Mar 2018 (The Alan Turing Institute)","Computacional Law","Policy Lab","Codex","Towards a Design Philosophy for Interoperable Blockchain Systems (Extended Abstract) Thomas Hardjono Alexander Lipton Alex “Sandy” Pentland MIT Connection Science","Blockchain Technology for Government","Blockchain and Quantum Computing","Logic Programming","Timestanp of evidence (UK judiciary system is starting a pilot)","Ferramenta de autoavaliação do Regulamento Geral de Proteção de Dados Pessoais (\"RGPD\")","JustFix.ny","Open protocol to implement FATF’s travel rule for virtual assets","Old Bailey Topic Explorer","DoNotPay app","Counting as a Human Being in the Era of Computational Law","jigsaw","The Document Assembly Line Project","Crowdjustice logo","Algorithm Register","How Humans Judge Machines","Lisbon DAO Observatory","Ellipse: regulatory reporting and data analytics platform","Decentralized ION is a Layer 2 open, permissionless network based on the purely deterministic Sidetree protoco","Free Law Project","Algorithm Register","Journal of Cross-disciplinary Research in Computational Law (CRCL)","Taproot"],["Berkman Klein Center and the MIT Media Lab","Oxford Internet Institute","The Alan Turing Institute","The Alan Turing Institute","MIT","Santa Fé Institute","King's College","Media Lab (Sandy Pentland)","The Alan Turing Institute","Stanford","Stanford","Stanford","MIT Media Lab","MITRE Corporation","MITRE Corporation","Stanford","UK gov","Observatório da Proteção de Dados Pessoais/CEDIS/NOVA Direito","JustFix.ny","OpenVASP",null,null,null,"Google","suffolklitlab",null,null,null,null,null,"Microsoft",null,null,null,null],["<a href=\"https://cyber.harvard.edu/topics/ethics-and-governance-ai\"> Ethics and Governance of Artificial Intelligence Initiative (Berkman Klein Center and the MIT Media Lab)<\/a>","<a href=\"https://www.oii.ox.ac.uk/\"> Oxford Internet Institute<\/a>","<a href=\"https://www.turing.ac.uk/\"> The Alan Turing Institute<\/a>","<a href=\"https://www.turing.ac.uk/research/data-ethics\"> Data ethics/ How can data science and artificial intelligence be used for the good of society?<\/a>","<a href=\"http://moralmachine.mit.edu/\"> Moral Machines (Media Lab)<\/a>","<a href=\"https://www.santafe.edu/research/themes/feldstein-program-law-history-and-regulation\"> Feldstein Program Law History and Regulation<\/a>","<a href=\"https://www.kcl.ac.uk/law/research/centres/telos/research/law-and-ethics-in-a-data-driven-digital-society.aspx\"> Law & Ethics in a Data Driven Digital Society<\/a>","<a href=\"https://medium.com/pillar-companies/machine-learning-for-encrypted-blockchains-sandy-pentland-mit-79c2d18eaf\"> Machine Learning for Encrypted Blockchains — Sandy Pentland, MIT<\/a>","<a href=\"https://www.youtube.com/watch?v=poqpsiS1fuA\"> Better living through trusted data - Alex ‘Sandy’ Pentland, MIT (Published on 16 Mar 2018 (The Alan Turing Institute)<\/a>","<a href=\"http://logic.stanford.edu/complaw/complaw.html\"> Computacional Law<\/a>","<a href=\"https://policylab.stanford.edu/\"> Policy Lab<\/a>","<a href=\"https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/\"> Codex<\/a>","<a href=\"https://hardjono.mit.edu/sites/default/files/documents/hardjono-lipton-pentland-p2pfisy-2018.pdf\"> Towards a Design Philosophy for Interoperable Blockchain Systems (Extended Abstract) Thomas Hardjono Alexander Lipton Alex “Sandy” Pentland MIT Connection Science<\/a>","<a href=\"https://www.mitre.org/publications/technical-papers/blockchain-technology-for-government\"> Blockchain Technology for Government<\/a>","<a href=\"https://www.mitre.org/publications/technical-papers/blockchain-and-quantum-computing\"> Blockchain and Quantum Computing<\/a>","<a href=\"http://corpuslegis.org/\"> Logic Programming<\/a>","<a href=\"https://insidehmcts.blog.gov.uk/2018/08/23/how-were-investigating-digital-ledger-technologies-to-secure-digital-evidence/\"> Timestanp of evidence (UK judiciary system is starting a pilot)<\/a>","<a href=\"https://observatoriopdp.limequery.com/983626/lang/pt-BR/newtest/Y\"> Ferramenta de autoavaliação do Regulamento Geral de Proteção de Dados Pessoais (\"RGPD\")<\/a>","<a href=\"https://www.justfix.nyc/\"> JustFix.ny<\/a>","<a href=\"https://www.openvasp.org/\"> Open protocol to implement FATF’s travel rule for virtual assets<\/a>","<a href=\"https://www.hypershelf.org/oldbailey/\"> Old Bailey Topic Explorer<\/a>","<a href=\"https://donotpay.com/\"> DoNotPay app<\/a>","<a href=\"https://www.cohubicol.com/\"> Counting as a Human Being in the Era of Computational Law<\/a>","<a href=\"https://jigsaw.google.com/\"> jigsaw<\/a>","<a href=\"https://suffolklitlab.org/doc-assembly-line/\"> The Document Assembly Line Project<\/a>","<a href=\"https://www.crowdjustice.com/\"> Crowdjustice logo<\/a>","<a href=\"https://algoritmeregister.amsterdam.nl/en/ai-register/\"> Algorithm Register<\/a>","<a href=\"https://www.judgingmachines.com/\"> How Humans Judge Machines<\/a>","<a href=\"https://lisbondaoobservatory.cidp.pt/publications\"> Lisbon DAO Observatory<\/a>","<a href=\"https://www.bis.org/about/bisih/topics/suptech_regtech/ellipse.htm\"> Ellipse: regulatory reporting and data analytics platform<\/a>","<a href=\"https://identity.foundation/ion/\"> Decentralized ION is a Layer 2 open, permissionless network based on the purely deterministic Sidetree protoco<\/a>","<a href=\"https://github.com/freelawproject\"> Free Law Project<\/a>","<a href=\"https://algoritmeregister.amsterdam.nl/en/ai-register/\"> Algorithm Register<\/a>","<a href=\"https://journalcrcl.org/crcl\"> Journal of Cross-disciplinary Research in Computational Law (CRCL) <\/a>","<a href=\"https://github.com/taprootactivation/Taproot-Activation\"> Taproot<\/a>"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Name<\/th>\n      <th>Entity<\/th>\n      <th>Link<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div id="notebooks" class="section level3">
+<h3>Notebooks</h3>
+<p><a
+href="https://colab.research.google.com/github/google/patents-public-data/blob/master/examples/patent_set_expansion.ipynb">Calculating
+Claim Statistics for a Subset of Patents using the Google Patents Public
+Datasets on BigQuery.</a> (source: Google)</p>
+<p><a
+href="https://colab.research.google.com/drive/1Z4Od7laAVb6nJAYsWEsxONrzVKG_gV5r?authuser=2#scrollTo=eX3_bdL7MX3V">PDF
+and keywords</a></p>
+<p><a
+href="https://colab.research.google.com/drive/1xCP5qCj7YqKnlCbqbEHcMKuVCfgnUXkn#scrollTo=3sJIaLhFcFlr">Blockchain</a></p>
+</div>
+<div id="presentations" class="section level3">
+<h3>Presentations</h3>
+<div id="urban-analytics-summer-school-2018" class="section level4">
+<h4>Urban Analytics Summer School 2018</h4>
+<p><a
+href="https://drive.google.com/file/d/1lxMk7YcUtru98n1ZqFJt2gFlTT8_SnL2/view?usp=sharing">Data
+(Representation,Structures and Sources), Lisbon, July 2018</a></p>
+<p><a
+href="https://drive.google.com/file/d/13dPHi2ISdZXfLHO0tTEnDoFExeyJINEU/view?usp=sharing">Data
+Science and Law, Lisbon, July 2018</a></p>
+</div>
+</div>
+<div id="data-viz" class="section level3">
+<h3>Data Viz</h3>
+<p><a
+href="https://graphcommons.com/graphs/ee67705e-797d-4019-8104-522cf8a61b61?show=analysis-cluster">Venture
+Capital Ecosystem (PT) Venture Capital Network</a></p>
+<p>Paper: [Ninth International Conference on Complex Systems (ICCS
+2018), Cambridge, MA, USA (July 22-27, 2018). Presentation “Portuguese
+Venture Capital Ecosystem – Visualising actors and investment flows
+across time”] (<a
+href="https://static1.squarespace.com/static/5b68a4e4a2772c2a206180a1/t/5cd470fdc830253030167665/1557426435054/book_final_1.pdf"
+class="uri">https://static1.squarespace.com/static/5b68a4e4a2772c2a206180a1/t/5cd470fdc830253030167665/1557426435054/book_final_1.pdf</a>)</p>
+<p><a
+href="https://graphcommons.com/graphs/cb24a61d-fe3e-4787-8c48-d1edd075e7db">VC
+backed startups - funding network</a></p>
+<p>Paper: Second Annual “Innovation, Economic Complexity and Economic
+Geography” Workshop, hosted at Utrecht University, the Netherlands (Sept
+2-4, 2019). Presentation “Who is (actually) funding “innovative”
+companies? - An empirical analysis of the role of public competitiveness
+financing and their interplay with Venture Capital financing, per region
+for the 2007- 2013 period</p>
+</div>
+</div>
+<div id="programming-languages" class="section level2">
+<h2>Programming Languages</h2>
+<p><a href="https://www.python.org/">Python</a></p>
+<p><a href="https://www.r-project.org/">The R Project for Statistical
+Computing</a> or <a href="https://www.rstudio.com/">R Studio</a></p>
+<p><a href="https://anaconda.org/">Anaconda</a> (namely if using python
+to install most libraries)</p>
+<div id="data-cleansing-and-extraction" class="section level3">
+<h3>Data Cleansing and Extraction</h3>
+<div id="unstructured-data" class="section level4">
+<h4>Unstructured data</h4>
+<div id="r" class="section level5">
+<h5>R</h5>
+<p><a href="https://dplyr.tidyverse.org/">Tidy and dplyr</a></p>
+</div>
+<div id="python" class="section level5">
+<h5>Python</h5>
+<p><a href="https://pandas.pydata.org/">Pandas</a></p>
+<p><a
+href="http://scikit-learn.org/stable/index.html">scikit-learn</a></p>
+</div>
+<div id="other" class="section level5">
+<h5>Other</h5>
+<p><a href="http://openrefine.org/">OpenRefine</a></p>
+<p><a
+href="https://github.com/chhsdata/dataplaybook/raw/gh-pages/documents/CHHS-DDG-V1.0-092316.pdf">CHHS
+De-Identification Guidelines Data De-Identification Guidelines
+California Health and Human Services, September 23 2016</a></p>
+<p><a href="https://www.import.io/">import.io</a></p>
+<p><a href="https://tabula.technology/">Tabula</a> (extract tables from
+pdf)</p>
+<p><a href="https://regexr.com/">RegExr</a></p>
+</div>
+</div>
+</div>
+<div id="data-maps" class="section level3">
+<h3>Data Maps</h3>
+<p><a href="https://www.arcgis.com/index.html">ArcGIS</a></p>
+<p><a href="https://leafletjs.com/">Leaflet</a></p>
+<p><a href="https://carto.com/">Carto</a></p>
+<p><a href="https://www.openstreetmap.org/">Open StreetMap</a></p>
+</div>
+</div>
+<div id="data-visualisation" class="section level2">
+<h2>Data Visualisation</h2>
+<p><a href="https://dive.media.mit.edu/">DIVE</a></p>
+<p><a href="https://d3js.org/">3D.js</a> and <a
+href="https://d3plus.org/">3D Plus</a></p>
+<p><a href="https://processing.org/">Processing</a></p>
+<p><a href="https://coffeescript.org/">CoffeeScript</a></p>
+<p><a href="https://angularjs.org/">AngularJS</a></p>
+<p><a href="http://pyjs.org/">pyjs</a></p>
+<p><a href="http://www.brython.info">Brython</a></p>
+<p><a href="https://www.tableau.com/">Tableau</a></p>
+<p><a href="https://rawgraphs.io/">RAWgraphs</a></p>
+<p><a href="https://www.datawrapper.de/">Datawrapper</a></p>
+<div id="libraries" class="section level3">
+<h3>Libraries:</h3>
+<p>(Integration with Python)</p>
+<p><a href="https://matplotlib.org/">Matplotlib</a></p>
+<p><a href="https://plot.ly/python/">Plotly</a></p>
+<p><a href="https://pypi.org/project/geoplotlib/">Geoplotlib</a></p>
+<p><a href="https://seaborn.pydata.org/">Seaborn</a></p>
+<p><a href="http://ggplot.yhathq.com/">Ggplot</a></p>
+<p><a href="https://bokeh.pydata.org/en/">Bokeh</a></p>
+<p><a href="http://pygal.org/en/stable/">pygal</a></p>
+<p>(Integration with R)</p>
+<p><a
+href="https://cran.r-project.org/web/packages/ggplot2/index.html">GGplot2</a></p>
+<p><a href="https://plot.ly/r/">Plotly</a></p>
+</div>
+<div id="complex-systems" class="section level3">
+<h3>Complex Systems</h3>
+<p><a href="https://www.paballand.com/install-econgeo">EconGeo R
+Package</a></p>
+<p><a href="http://igraph.org/redirect.html">igraph</a></p>
+<p><a href="https://networkx.github.io/">networkX</a></p>
+</div>
+<div id="some-methods-examples-of-libraries-for-data-imputation"
+class="section level3">
+<h3>Some Methods (examples of libraries) for data imputation</h3>
+<p>List of R Packages <a
+href="https://cran.r-project.org/web/packages/mice/index.html">MICE</a>
+(Multivariate Imputation by Chained Equations, Random Forest, CART
+etc).</p>
+<p>Methods:</p>
+<ul>
+<li><p>PMM (Predictive Mean Matching) – For numeric variables</p></li>
+<li><p>logreg(Logistic Regression) – For Binary Variables( with 2
+levels)</p></li>
+<li><p>polyreg(Bayesian polytomous regression) – For Factor Variables
+(&gt;= 2 levels)</p></li>
+<li><p>Proportional odds model (ordered, &gt;= 2 levels)</p></li>
+</ul>
+<p><a
+href="https://cran.r-project.org/web/packages/Amelia/Amelia.pdf">Amelia</a>
+and <a
+href="https://gking.harvard.edu/files/gking/files/amelia_jss.pdf">Amelia
+II</a> multiple imputation (generate imputed data sets) to deal with
+missing values.It is enabled with bootstrap based EMB algorithm which
+makes it faster and robust to impute many variables including cross
+sectional, time series data etc. It makes the following assumptions:</p>
+<p>All variables in a data set have Multivariate Normal Distribution
+(MVN). It uses means and covariances to summarize data.</p>
+<p>Missing data is random in nature (Missing at Random)</p>
+<p><a
+href="https://cran.r-project.org/web/packages/missForest/missForest.pdf">missForest</a>
+(Random Forest, non parametric imputation)</p>
+<p><a
+href="https://cran.r-project.org/web/packages/Hmisc/index.html">Hmisc</a>
+(linear regression, logistic regression &amp; cox regression)</p>
+<p><a href="https://cran.r-project.org/web/packages/mi/mi.pdf">Mi</a>
+(Multiple imputation with diagnostics)</p>
+<p>Missing values (Rubin, Donald B. “Inference and Missing Data.”
+Biometrika, vol. 63, no. 3, 1976, pp. 581–592.JSTOR, JSTOR,
+www.jstor.org/stable/2335739)</p>
+</div>
+<div id="reproducible-research-tools" class="section level3">
+<h3>Reproducible Research Tools</h3>
+<div id="notebooks-and-repositories" class="section level4">
+<h4>Notebooks and repositories</h4>
+<p>R</p>
+<p><a href="https://rmarkdown.rstudio.com/">Markdown</a></p>
+<p>Python (and R):</p>
+<p><a href="http://jupyterlab.readthedocs.io/en/stable/">Jupyter</a></p>
+<p><a
+href="https://colab.research.google.com/notebooks/welcome.ipynb#recent=true">Colab</a></p>
+<p>Repos</p>
+<p><a href="https://getdkan.org/">DKAN Open Data Platform</a></p>
+<p><a href="https://github.com/">GitHub</a></p>
+</div>
+</div>
+<div id="other-1" class="section level3">
+<h3>Other</h3>
+<p><a href="https://www.kaggle.com/">Kaggle</a></p>
+<p><a href="https://datastudio.withgoogle.com/">Google Analytics
+Solutions Data Studio</a></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
